@@ -25,6 +25,7 @@
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
+    "nodemon": "^1.19.4",
     "watchify": "^3.11.1"
   }
 }
