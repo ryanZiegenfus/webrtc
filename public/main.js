@@ -12,6 +12,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
 
         //used to initialize a peer
         function InitPeer(type) {
+            console.log('InitPeer')
             let peer = new Peer({initiator:(type === 'init') ? true : false, stream:stream, trickle: false })
             peer.on('stream', function (stream) {
                 CreateVideo(stream)
@@ -25,9 +26,10 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
 
         //for peer of type init
         function MakePeer() {
+            console.log('MakePeer')
             client.gotAnswer = false
             let peer = InitPeer('init')
-            peer.on('signal', function(data){
+            peer.on('signal', function(data) {
                 if(!client.gotAnswer) {
                     socket.emit('Offer', data)
                 }
@@ -36,7 +38,8 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         }
 
         //for peer of type not init
-        function FrontAnswer() {
+        function FrontAnswer(offer) {
+            console.log('FrontAnswer')
             let peer = InitPeer('notInit')
             peer.on('signal', (data) => {
                 socket.emit('Answer', data)
@@ -45,12 +48,14 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         }
 
         function SignalAnswer(answer) {
+            console.log('SignalAnswer')
             client.gotAnswer = true
             let peer = client.peer
             peer.signal(answer)
         }
 
         function CreateVideo(stream) {
+            console.log('CreateVideo')
             let video = document.createElement('video')
             video.id = 'peerVideo'
             video.srcObject = stream
@@ -60,6 +65,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         }
 
         function SessionActive() {
+            console.log('SessionActive')
             document.write('Session active. Please come back later')
         }
 
